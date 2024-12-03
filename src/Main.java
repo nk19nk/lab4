@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class Main {
     //2.2
@@ -11,7 +12,6 @@ public class Main {
         if (boxes == null || boxes.isEmpty()) {
             throw new IllegalArgumentException("Список коробок пустой или null");
         }
-
         double max = Double.NEGATIVE_INFINITY;
         for (Box<T> box : boxes) {
             if (!box.isEmpty()) {
@@ -31,6 +31,17 @@ public class Main {
         }
         return res;
     }
+    //3.2
+    public static <T> List<T> method2(List<T> list, Predicate<T> obj) {
+        List<T> res = new ArrayList<>();
+        for (T o : list) {
+            if (obj.test(o)) {
+                res.add(o);
+            }
+        }
+        return res;
+    }
+
 
     //метод для задачи 1.1
     public static void method(Box<Integer> box) {
@@ -118,6 +129,7 @@ public class Main {
             System.out.println(e.getMessage());
         }
 
+        //3.1
         System.out.println("Задание 3.1");
         System.out.println("Преобразование списка строк в список их длин");
         List<String> strlist = List.of("qwerty", "asdfg", "zx");
@@ -137,7 +149,33 @@ public class Main {
         for (int[] i : arr) {
             System.out.println(Arrays.toString(i));
         }
-        List<Integer> maxValues = method1(arr, x -> Arrays.stream(x).max().orElse(0));
-        System.out.println("Максимальные значения: " + maxValues);
+        List<Integer> maximum = method1(arr, x -> Arrays.stream(x).max().orElse(0));
+        System.out.println("Максимальные значения: " + maximum);
+
+        //3.2
+        System.out.println("Задание 3.2");
+        System.out.println("Преобразование списка строк в список строк, длины которых больше 3");
+        List<String> strlist2 = List.of("qwerty", "asdfg", "zx");
+        System.out.println("Исходный список: " + strlist2);
+        List<String> lenlist2 = method2(strlist2, x->x.length() >= 3);
+        System.out.println("Новый список: " + lenlist2);
+
+        System.out.println("Преобразование списка целых чисел в список неположительных чисел");
+        List<Integer> numlist2 = List.of(1, -3, 7);
+        System.out.println("Исходный список: " + numlist2);
+        List<Integer> rezlist2 = method2(numlist2, x -> x <= 0);
+        System.out.println("Новый список: " + rezlist2);
+
+        System.out.println("Преобразование списка массивов целых чисел в список массивов неположительных чисел");
+        List<int[]> arr2 = List.of(new int[]{1, 19, 22}, new int[]{0, 5, -9}, new int[]{-7, -8, -9}, new int[]{0, 0, 0});
+        System.out.println("Исходные массивы: ");
+        for (int[] i : arr2) {
+            System.out.println(Arrays.toString(i));
+        }
+        List<int[]> newarr2 = method2(arr2, x -> Arrays.stream(x).allMatch(y -> y <= 0));
+        System.out.println("Новые массивы: ");
+        for (int[] i : newarr2) {
+            System.out.println(Arrays.toString(i));
+        }
     }
 }

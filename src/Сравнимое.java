@@ -1,3 +1,3 @@
 public interface Сравнимое<T> {
-    int сравнить(T other);
+    int сравнить(T x);
 }
